@@ -11,17 +11,21 @@ public class Player : MonoBehaviour {
 	private Rigidbody2D rb2d;
 	private Animator animator;
 
-	// set by GroundCheck
-	public bool grounded = false;
-
+	// status vars
 	private bool isMirrored = false;
 	private bool canDoubleJump = false;
+	public int curHealth;
+	public int maxHealth = 100;
 
+	// externallz set
+	public bool grounded = false;
+	
 	// Use this for initialization
 	void Start () {
 		rb2d = gameObject.GetComponent<Rigidbody2D>();
 		animator = gameObject.GetComponent<Animator>();
 
+		curHealth = maxHealth;
 	}
 	
 	// Update is called once per frame
@@ -74,6 +78,14 @@ public class Player : MonoBehaviour {
 			Mathf.Clamp(transform.position.x, cameraRect .xMin, cameraRect .xMax),
 			Mathf.Clamp(transform.position.y, cameraRect .yMin, cameraRect .yMax),
 			transform.position.z);
+
+		if (curHealth > maxHealth) {
+			curHealth = maxHealth;
+		}
+
+		if (curHealth <= 0) {
+			Die ();
+		}
 	}
 
 	void FixedUpdate() {
@@ -92,5 +104,8 @@ public class Player : MonoBehaviour {
 		else if (rb2d.velocity.x < -maxVelocity) {
 			rb2d.velocity = new Vector2(-maxVelocity, rb2d.velocity.y);
 		}
+	}
+
+	private void Die() {
 	}
 }
