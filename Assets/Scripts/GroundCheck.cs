@@ -10,11 +10,15 @@ public class GroundCheck : MonoBehaviour {
 
 	}
 
-	void OnTriggerEnter2d(Collider2D collider) {
+	void OnTriggerEnter2D(Collider2D collider) {
 		player.grounded = true;
 	}
 
-	void OnTriggerExit2d(Collider2D collider) {
+	void OnTriggerStay2D(Collider2D collider) {
+		player.grounded = true;
+	}
+
+	void OnTriggerExit2D(Collider2D collider) {
 		player.grounded = false;
 	}
 }

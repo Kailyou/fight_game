@@ -3,9 +3,9 @@ using System.Collections;
 
 public class Player : MonoBehaviour {
 	// configuration
-	private float speed = 100;
-	private float maxVelocity = 100;
-	private float jumpPower = 150;
+	private float maxVelocity = 3;
+	private float speed = 50;
+	private float jumpPower = 5;
 
 	// refs
 	private Rigidbody2D rb2d;
@@ -13,6 +13,8 @@ public class Player : MonoBehaviour {
 
 	// set by GroundCheck
 	public bool grounded = false;
+
+	private bool isMirrored = false;
 
 	// Use this for initialization
 	void Start () {
@@ -23,22 +25,30 @@ public class Player : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		float h = Input.GetAxis ("Horizontal");
+		float v = Input.GetAxis ("Vertical");
 
 		animator.SetBool ("grounded", grounded);
 		animator.SetFloat ("speed", Mathf.Abs(h));
 
-		if (h < -0.1) {
-			transform.localScale = new Vector3 (-1, 1, 1);
+		if (!isMirrored && h < -0.1) {
+			Vector3 tmp = transform.localScale;
+			transform.localScale = new Vector3(tmp.x*-1, tmp.y, tmp.z);
+			isMirrored = true;
 		}
-		if (h > 0.1) {
-			transform.localScale = new Vector3 (1, 1, 1);
+		if (isMirrored && h > 0.1) {
+			Vector3 tmp = transform.localScale;
+			transform.localScale = new Vector3(tmp.x*-1, tmp.y, tmp.z);
+			isMirrored = false;
+		}
+
+		if (grounded && v>0.1) {
+			rb2d.velocity = new Vector2(rb2d.velocity.x, jumpPower);
 		}
 
 	}
 
 	void FixedUpdate() {
 		float h = Input.GetAxis ("Horizontal");
-		float v = Input.GetAxis ("Vertical");
 
 		rb2d.AddForce (Vector2.right * speed * h);
 
