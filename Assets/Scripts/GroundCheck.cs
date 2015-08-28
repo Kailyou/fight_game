@@ -12,6 +12,7 @@ public class GroundCheck : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D collider) {
 		player.grounded = true;
+		player.TakeDamage (5);
 	}
 
 	void OnTriggerStay2D(Collider2D collider) {

@@ -16,25 +16,50 @@ public class Player : NetworkBehaviour {
 	// status vars
 	private bool isMirrored = false;
 	private bool canDoubleJump = false;
-	public int curHealth;
+	[SyncVar] private int syncHealth;
+	private Healthbar healthbar;
 
 	// externally set
 	public bool grounded = false;
+
+	[Command]
+	void CmdTakeDamage(int amount) {
+		if (!isServer)
+			return;
+
+		syncHealth -= amount;
+	}
+
+	[ClientCallback]
+	public void TakeDamage(int amount) {
+		if (isLocalPlayer) {
+			CmdTakeDamage (amount);
+		}
+	}
 	
 	void Start () {
 		rb2d = gameObject.GetComponent<Rigidbody2D>();
 		animator = gameObject.GetComponent<Animator>();
+		healthbar = GameObject.FindGameObjectWithTag (isLocalPlayer?"HealthbarLocal":"HealthbarRemote").GetComponent<Healthbar> ();
 
-		curHealth = maxHealth;
+		syncHealth = maxHealth;
+		healthbar.maxValue = maxHealth;
+		healthbar.setValue (syncHealth);
 	}
 	
 	void Update () {
 		// publish data to animator
 		animator.SetBool ("grounded", grounded);
 		animator.SetFloat ("speed", Mathf.Abs(rb2d.velocity.x));
+		// publish data to healthbar
+		healthbar.setValue (syncHealth);
 
 		if (!isLocalPlayer) {
 			return;
+		}
+
+		if (syncHealth <= 0) {
+			Die ();
 		}
 
 		// walk left image transformation
@@ -61,14 +86,6 @@ public class Player : NetworkBehaviour {
 				rb2d.AddForce(Vector2.up*jumpPower);
 				canDoubleJump = false;
 			}
-		}
-
-		if (curHealth > maxHealth) {
-			curHealth = maxHealth;
-		}
-
-		if (curHealth <= 0) {
-			Die ();
 		}
 	}
 
