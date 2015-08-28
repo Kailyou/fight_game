@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Healthbar1
   - Healthbar2
+  - DamageTrigger
   layers:
   - Default
   - TransparentFX

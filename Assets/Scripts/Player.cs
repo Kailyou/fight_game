@@ -58,6 +58,7 @@ public class Player : NetworkBehaviour {
 		// publish data to animator
 		animator.SetBool ("grounded", grounded);
 		animator.SetFloat ("speed", Mathf.Abs(rb2d.velocity.x));
+
 		// publish data to healthbar
 		healthbar.setValue (syncHealth);
 

@@ -7,12 +7,10 @@ public class GroundCheck : MonoBehaviour {
 
 	void Start() {
 		player = gameObject.GetComponentInParent<Player> ();
-
 	}
 
 	void OnTriggerEnter2D(Collider2D collider) {
 		player.grounded = true;
-		player.TakeDamage (5);
 	}
 
 	void OnTriggerStay2D(Collider2D collider) {
