@@ -415,6 +415,18 @@ Prefab:
       propertyPath: m_TagString
       value: Healthbar2
       objectReference: {fileID: 0}
+    - target: {fileID: 21286236, guid: e33426e091cd5c1448508ff70c65585b, type: 2}
+      propertyPath: m_SortingOrder
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 21253218, guid: e33426e091cd5c1448508ff70c65585b, type: 2}
+      propertyPath: m_SortingOrder
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 21268708, guid: e33426e091cd5c1448508ff70c65585b, type: 2}
+      propertyPath: m_SortingOrder
+      value: 51
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e33426e091cd5c1448508ff70c65585b, type: 2}
   m_IsPrefabParent: 0
@@ -1479,6 +1491,18 @@ Prefab:
       propertyPath: m_TagString
       value: Healthbar1
       objectReference: {fileID: 0}
+    - target: {fileID: 21286236, guid: e33426e091cd5c1448508ff70c65585b, type: 2}
+      propertyPath: m_SortingOrder
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 21253218, guid: e33426e091cd5c1448508ff70c65585b, type: 2}
+      propertyPath: m_SortingOrder
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 21268708, guid: e33426e091cd5c1448508ff70c65585b, type: 2}
+      propertyPath: m_SortingOrder
+      value: 51
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e33426e091cd5c1448508ff70c65585b, type: 2}
   m_IsPrefabParent: 0
@@ -1829,7 +1853,7 @@ BoxCollider2D:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1661016817}
   m_Enabled: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 07b96709d60759644b8b39139d16d278, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_Offset: {x: .174396515, y: 2.1044569}
@@ -2110,7 +2134,7 @@ BoxCollider2D:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1880186689}
   m_Enabled: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 07b96709d60759644b8b39139d16d278, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_Offset: {x: .174396515, y: 2.1044569}
