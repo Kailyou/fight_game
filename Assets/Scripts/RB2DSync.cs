@@ -31,7 +31,7 @@ public class RB2DSync : NetworkBehaviour {
 		if (!isLocalPlayer) {
 			if(initialSync) {
 				transform.position = syncPos;
-				initialSync = true;
+				initialSync = false;
 			}
 			else {
 				transform.position = Vector3.Lerp(transform.position, syncPos, Time.deltaTime*lerpRate);
