@@ -21,6 +21,7 @@ public class Player : NetworkBehaviour {
 
 	// externally set
 	public bool grounded = false;
+	[SyncVar] public int id = -1;	
 
 	[Command]
 	void CmdTakeDamage(int amount) {
@@ -40,11 +41,17 @@ public class Player : NetworkBehaviour {
 	void Start () {
 		rb2d = gameObject.GetComponent<Rigidbody2D>();
 		animator = gameObject.GetComponent<Animator>();
-		healthbar = GameObject.FindGameObjectWithTag (isLocalPlayer?"HealthbarLocal":"HealthbarRemote").GetComponent<Healthbar> ();
+		healthbar = GameObject.FindGameObjectWithTag (id==0?"Healthbar1":"Healthbar2").GetComponent<Healthbar> ();
 
 		syncHealth = maxHealth;
 		healthbar.maxValue = maxHealth;
 		healthbar.setValue (syncHealth);
+
+		if (id == 1) {
+			Vector3 tmp = transform.localScale;
+			transform.localScale = new Vector3(tmp.x*-1, tmp.y, tmp.z);
+			isMirrored = true;
+		}
 	}
 	
 	void Update () {

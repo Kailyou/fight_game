@@ -11,6 +11,7 @@ public class RB2DSync : NetworkBehaviour {
 	[SyncVar] private Vector3 syncScale;
 	[SyncVar] private Vector2 syncVelocity;
 	private float lerpRate = 15;
+	private bool initialSync = true;
 	
 	[Command]
 	void CmdSetData(Vector3 pos, Vector3 scale, Vector2 velocity) {
@@ -28,7 +29,14 @@ public class RB2DSync : NetworkBehaviour {
 	
 	void LerpData() {
 		if (!isLocalPlayer) {
-			transform.position = Vector3.Lerp(transform.position, syncPos, Time.deltaTime*lerpRate);
+			if(initialSync) {
+				transform.position = syncPos;
+				initialSync = true;
+			}
+			else {
+				transform.position = Vector3.Lerp(transform.position, syncPos, Time.deltaTime*lerpRate);
+			}
+
 			transform.localScale = syncScale;
 			rb2d.velocity = syncVelocity;
 		}
