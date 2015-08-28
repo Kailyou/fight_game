@@ -17,11 +17,12 @@ public class Player : NetworkBehaviour {
 	private bool isMirrored = false;
 	private bool canDoubleJump = false;
 	[SyncVar] private int syncHealth;
+	[SyncVar] private bool syncCrouching;
 	private Healthbar healthbar;
 
 	// externally set
 	public bool grounded = false;
-	[SyncVar] public int id = -1;	
+	[SyncVar] public int id = -1;
 
 	[Command]
 	void CmdTakeDamage(int amount) {
@@ -35,6 +36,21 @@ public class Player : NetworkBehaviour {
 	public void TakeDamage(int amount) {
 		if (isLocalPlayer) {
 			CmdTakeDamage (amount);
+		}
+	}
+
+	[Command]
+	void CmdSetData(bool crouching) {
+		if (!isServer)
+			return;
+		
+		syncCrouching = crouching;
+	}
+
+	[ClientCallback]
+	public void CbSendData() {
+		if (isLocalPlayer) {
+			CmdSetData (Input.GetAxis ("Vertical")<-0.1);
 		}
 	}
 	
@@ -58,6 +74,7 @@ public class Player : NetworkBehaviour {
 		// publish data to animator
 		animator.SetBool ("grounded", grounded);
 		animator.SetFloat ("speed", Mathf.Abs(rb2d.velocity.x));
+		animator.SetBool ("Crouching", syncCrouching);
 
 		// publish data to healthbar
 		healthbar.setValue (syncHealth);
@@ -84,7 +101,7 @@ public class Player : NetworkBehaviour {
 		}
 
 		// jump
-		if (Input.GetButtonDown("Jump")) {
+		if (!syncCrouching && Input.GetButtonDown("Jump")) {
 			if(grounded) {
 				rb2d.AddForce(Vector2.up*jumpPower);
 				canDoubleJump = true;
@@ -102,21 +119,24 @@ public class Player : NetworkBehaviour {
 			return;
 		}
 
-		float h = Input.GetAxis ("Horizontal");
+		if (!syncCrouching) {
+			float h = Input.GetAxis ("Horizontal");
 
-		// stop walking immediatly when the user releases the button
-		Vector3 tmp = rb2d.velocity;
-		tmp.x *= 0.75f;
-		rb2d.velocity = tmp;
+			// stop walking immediatly when the user releases the button
+			Vector3 tmp = rb2d.velocity;
+			tmp.x *= 0.75f;
+			rb2d.velocity = tmp;
 
-		// walk left/right
-		rb2d.AddForce (Vector2.right * speed * h);
-		if (rb2d.velocity.x > maxVelocity) {
-			rb2d.velocity = new Vector2(maxVelocity, rb2d.velocity.y);
+			// walk left/right
+			rb2d.AddForce (Vector2.right * speed * h);
+			if (rb2d.velocity.x > maxVelocity) {
+				rb2d.velocity = new Vector2 (maxVelocity, rb2d.velocity.y);
+			} else if (rb2d.velocity.x < -maxVelocity) {
+				rb2d.velocity = new Vector2 (-maxVelocity, rb2d.velocity.y);
+			}
 		}
-		else if (rb2d.velocity.x < -maxVelocity) {
-			rb2d.velocity = new Vector2(-maxVelocity, rb2d.velocity.y);
-		}
+
+		CbSendData ();
 	}
 
 	private void Die() {
