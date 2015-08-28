@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class Player : MonoBehaviour {
+public class Player : NetworkBehaviour {
 	// configuration
 	private float maxVelocity = 3;
 	private float speed = 150;
 	private float jumpPower = 250f;
+	private int maxHealth = 100;
 
 	// refs
 	private Rigidbody2D rb2d;
@@ -15,12 +17,10 @@ public class Player : MonoBehaviour {
 	private bool isMirrored = false;
 	private bool canDoubleJump = false;
 	public int curHealth;
-	public int maxHealth = 100;
 
-	// externallz set
+	// externally set
 	public bool grounded = false;
 	
-	// Use this for initialization
 	void Start () {
 		rb2d = gameObject.GetComponent<Rigidbody2D>();
 		animator = gameObject.GetComponent<Animator>();
@@ -28,23 +28,23 @@ public class Player : MonoBehaviour {
 		curHealth = maxHealth;
 	}
 	
-	// Update is called once per frame
 	void Update () {
-		float h = Input.GetAxis ("Horizontal");
-		float v = Input.GetAxis ("Vertical");
-
 		// publish data to animator
 		animator.SetBool ("grounded", grounded);
 		animator.SetFloat ("speed", Mathf.Abs(rb2d.velocity.x));
 
+		if (!isLocalPlayer) {
+			return;
+		}
+
 		// walk left image transformation
-		if (!isMirrored && h < -0.1) {
+		if (!isMirrored && rb2d.velocity.x < -0.1) {
 			Vector3 tmp = transform.localScale;
 			transform.localScale = new Vector3(tmp.x*-1, tmp.y, tmp.z);
 			isMirrored = true;
 		}
 		// walk right image transformation
-		if (isMirrored && h > 0.1) {
+		if (isMirrored && rb2d.velocity.x > 0.1) {
 			Vector3 tmp = transform.localScale;
 			transform.localScale = new Vector3(tmp.x*-1, tmp.y, tmp.z);
 			isMirrored = false;
@@ -63,22 +63,6 @@ public class Player : MonoBehaviour {
 			}
 		}
 
-		// calculate camera edges
-		Vector3 bottomLeft = Camera.main.ScreenToWorldPoint(Vector3.zero);
-		Vector3 topRight = Camera.main.ScreenToWorldPoint(new Vector3(
-			Camera.main.pixelWidth, Camera.main.pixelHeight));
-		// create camera rect
-		Rect cameraRect = new Rect(
-			bottomLeft.x,
-			bottomLeft.y,
-			topRight.x - bottomLeft.x,
-			topRight.y - bottomLeft.y);
-		// clamp player to camera bounds
-		transform.position = new Vector3(
-			Mathf.Clamp(transform.position.x, cameraRect .xMin, cameraRect .xMax),
-			Mathf.Clamp(transform.position.y, cameraRect .yMin, cameraRect .yMax),
-			transform.position.z);
-
 		if (curHealth > maxHealth) {
 			curHealth = maxHealth;
 		}
@@ -89,6 +73,10 @@ public class Player : MonoBehaviour {
 	}
 
 	void FixedUpdate() {
+		if (!isLocalPlayer) {
+			return;
+		}
+
 		float h = Input.GetAxis ("Horizontal");
 
 		// stop walking immediatly when the user releases the button
