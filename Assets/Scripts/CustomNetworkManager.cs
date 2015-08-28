@@ -11,6 +11,10 @@ public class CustomNetworkManager : NetworkManager {
 		}
 	}
 
+	public override void OnServerDisconnect(NetworkConnection conn) {
+		StopHost ();
+	}
+
 	// called when a new player is added for a client
 	public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
 	{

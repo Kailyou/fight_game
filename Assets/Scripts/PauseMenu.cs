@@ -1,14 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
 public class PauseMenu : MonoBehaviour {
 	public GameObject pauseUI;
 
 	private bool paused = false;
+	private NetworkManager networkManager;
 
 	// Use this for initialization
 	void Start () {
 		pauseUI.SetActive (paused);
+		networkManager = GameObject.Find ("Networking").GetComponent<NetworkManager> ();
 	}
 	
 	// Update is called once per frame
@@ -18,14 +21,14 @@ public class PauseMenu : MonoBehaviour {
 		}
 
 		pauseUI.SetActive (paused);
-		Time.timeScale = paused?0:1;
 	}
 
 	public void onResume() {
 		paused = false;
 	}
 
-	public void onMainMenu() {
+	public void onLeaveGame() {
+		networkManager.StopHost ();
 	}
 
 	public void onExit() {
