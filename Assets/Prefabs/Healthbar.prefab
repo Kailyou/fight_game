@@ -27,7 +27,7 @@ GameObject:
   - 114: {fileID: 11419928}
   m_Layer: 0
   m_Name: Healthbar
-  m_TagString: HealthbarLocal
+  m_TagString: Healthbar1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -83,7 +83,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 167976}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.227, y: 3.55299997, z: 0}
+  m_LocalPosition: {x: -2.22900009, y: 3.55299997, z: 0}
   m_LocalScale: {x: 1.99910998, y: .300611198, z: .977609396}
   m_Children: []
   m_Father: {fileID: 455386}
@@ -95,7 +95,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 163570}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.72000003, y: -3.3499999, z: 0}
+  m_LocalPosition: {x: -3.6400001, y: -5.11999989, z: 9.27050781}
   m_LocalScale: {x: 1.02290261, y: 1.02290344, z: 1.02290344}
   m_Children:
   - {fileID: 440162}
@@ -150,7 +150,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 50
   m_Sprite: {fileID: 21300000, guid: e2d0078b279b9814c843ac0e531b8dc4, type: 3}
   m_Color: {r: 0, g: 1, b: .172413826, a: 1}
 --- !u!212 &21268708
@@ -176,7 +176,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 51
   m_Sprite: {fileID: 21300000, guid: cb92a7ea877f3e546bbc0d551d3a26f3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!212 &21286236
@@ -202,7 +202,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 50
   m_Sprite: {fileID: 21300000, guid: e2d0078b279b9814c843ac0e531b8dc4, type: 3}
   m_Color: {r: 0, g: 1, b: .172413826, a: 1}
 --- !u!1001 &100100000
