@@ -1,5 +1,21 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &100212
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 487614}
+  - 61: {fileID: 6108624}
+  m_Layer: 0
+  m_Name: AttackTriggerBack
+  m_TagString: DamageTrigger
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &109106
 GameObject:
   m_ObjectHideFlags: 0
@@ -34,7 +50,7 @@ GameObject:
   - 4: {fileID: 485546}
   - 61: {fileID: 6148446}
   m_Layer: 0
-  m_Name: AttackTrigger
+  m_Name: AttackTriggerFront
   m_TagString: DamageTrigger
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -81,6 +97,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 498316}
   m_RootOrder: 1
+--- !u!4 &487614
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100212}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -.0399998985, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 498316}
+  m_RootOrder: 2
 --- !u!4 &498316
 Transform:
   m_ObjectHideFlags: 1
@@ -88,11 +116,12 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 109106}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.24316549, y: -1.79105246, z: 0}
+  m_LocalPosition: {x: -5.84416866, y: 3.47110605, z: 0}
   m_LocalScale: {x: .31960687, y: .31960687, z: .31960687}
   m_Children:
   - {fileID: 424730}
   - {fileID: 485546}
+  - {fileID: 487614}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!50 &5087790
@@ -124,6 +153,19 @@ BoxCollider2D:
   m_Offset: {x: -.27208674, y: -.0856132507}
   serializedVersion: 2
   m_Size: {x: 2.03470063, y: 3.46740627}
+--- !u!61 &6108624
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100212}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: .907301903, y: -1.04807544}
+  serializedVersion: 2
+  m_Size: {x: .390439868, y: .753364086}
 --- !u!61 &6148446
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -132,7 +174,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 138686}
   m_Enabled: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_Offset: {x: 1.05192554, y: -.0563759021}
   serializedVersion: 2
@@ -147,9 +189,9 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_UsedByEffector: 0
-  m_Offset: {x: .466138303, y: .0758610666}
+  m_Offset: {x: .284866154, y: .0758610666}
   serializedVersion: 2
-  m_Size: {x: 1.07900524, y: .241567954}
+  m_Size: {x: 1.44155014, y: .241567954}
 --- !u!95 &9519996
 Animator:
   serializedVersion: 3
@@ -233,7 +275,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c15cd4a4116b6014583aeb58250bb7d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackTrigger: {fileID: 6148446}
+  attackTriggerFront: {fileID: 6148446}
+  attackTriggerBack: {fileID: 6108624}
 --- !u!114 &11490152
 MonoBehaviour:
   m_ObjectHideFlags: 1

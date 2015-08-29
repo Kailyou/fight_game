@@ -84,6 +84,7 @@ public class Player : NetworkBehaviour {
 	
 	void Update () {
 		if (syncDied) {
+			animator.SetBool("Dead", true);
 			gameoverMenu.onGameOver(!isLocalPlayer);
 			return;
 		}
