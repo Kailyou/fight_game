@@ -6,12 +6,12 @@ public class PauseMenu : MonoBehaviour {
 	public GameObject pauseUI;
 
 	private bool paused = false;
-	private NetworkManager networkManager;
+	private CustomNetworkManager networkManager;
 
 	// Use this for initialization
 	void Start () {
 		pauseUI.SetActive (paused);
-		networkManager = GameObject.Find ("Networking").GetComponent<NetworkManager> ();
+		networkManager = GameObject.Find ("Networking").GetComponent<CustomNetworkManager> ();
 	}
 	
 	// Update is called once per frame

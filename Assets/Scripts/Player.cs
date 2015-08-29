@@ -12,6 +12,8 @@ public class Player : NetworkBehaviour {
 	// refs
 	private Rigidbody2D rb2d;
 	private Animator animator;
+	private CustomNetworkManager networkManager;
+	private GameoverMenu gameoverMenu;
 
 	// status vars
 	private bool isMirrored = false;
@@ -19,6 +21,7 @@ public class Player : NetworkBehaviour {
 	[SyncVar] private int syncHealth;
 	[SyncVar] private bool syncCrouching;
 	private Healthbar healthbar;
+	[SyncVar] private bool syncDied = false;
 
 	// externally set
 	public bool grounded = false;
@@ -30,6 +33,13 @@ public class Player : NetworkBehaviour {
 			return;
 
 		syncHealth -= amount;
+		if (syncHealth < 0) {
+			syncHealth = 0;
+		}
+
+		if (syncHealth == 0) {
+			syncDied = true;
+		}
 	}
 
 	[ClientCallback]
@@ -57,7 +67,9 @@ public class Player : NetworkBehaviour {
 	void Start () {
 		rb2d = gameObject.GetComponent<Rigidbody2D>();
 		animator = gameObject.GetComponent<Animator>();
+		networkManager = GameObject.Find ("Networking").GetComponent<CustomNetworkManager> ();
 		healthbar = GameObject.FindGameObjectWithTag (id==0?"Healthbar1":"Healthbar2").GetComponent<Healthbar> ();
+		gameoverMenu = Camera.main.GetComponent<GameoverMenu> ();
 
 		syncHealth = maxHealth;
 		healthbar.maxValue = maxHealth;
@@ -71,6 +83,11 @@ public class Player : NetworkBehaviour {
 	}
 	
 	void Update () {
+		if (syncDied) {
+			gameoverMenu.onGameOver(!isLocalPlayer);
+			return;
+		}
+
 		// publish data to animator
 		animator.SetBool ("grounded", grounded);
 		animator.SetFloat ("speed", Mathf.Abs(rb2d.velocity.x));
@@ -81,10 +98,6 @@ public class Player : NetworkBehaviour {
 
 		if (!isLocalPlayer) {
 			return;
-		}
-
-		if (syncHealth <= 0) {
-			Die ();
 		}
 
 		// walk left image transformation
@@ -115,6 +128,10 @@ public class Player : NetworkBehaviour {
 	}
 
 	void FixedUpdate() {
+		if (syncDied) {
+			return;
+		}
+
 		if (!isLocalPlayer) {
 			return;
 		}
@@ -137,8 +154,5 @@ public class Player : NetworkBehaviour {
 		}
 
 		CbSendData ();
-	}
-
-	private void Die() {
 	}
 }
