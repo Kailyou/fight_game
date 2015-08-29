@@ -83,12 +83,6 @@ public class Player : NetworkBehaviour {
 	}
 	
 	void Update () {
-		if (syncDied) {
-			animator.SetBool("Dead", true);
-			gameoverMenu.onGameOver(!isLocalPlayer);
-			return;
-		}
-
 		// publish data to animator
 		animator.SetBool ("grounded", grounded);
 		animator.SetFloat ("speed", Mathf.Abs(rb2d.velocity.x));
@@ -96,6 +90,12 @@ public class Player : NetworkBehaviour {
 
 		// publish data to healthbar
 		healthbar.setValue (syncHealth);
+
+		if (syncDied) {
+			animator.SetBool("Dead", true);
+			gameoverMenu.onGameOver(!isLocalPlayer);
+			return;
+		}
 
 		if (!isLocalPlayer) {
 			return;
