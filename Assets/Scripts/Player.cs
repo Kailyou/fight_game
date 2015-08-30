@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 public class Player : NetworkBehaviour {
 	// configuration
 	private float maxVelocity = 3;
-	private float speed = 150;
+	private float speed = 30;
 	private float jumpPower = 250f;
 	private int maxHealth = 100;
 
